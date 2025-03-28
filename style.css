@@ -1,0 +1,39 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    background-color: #030397;
+}
+
+.container, .box, .animal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.animal img{
+    width: 40px;
+    height: 35px;
+}
+
+.animal{
+    width: 80px;
+    height: 55px;
+    background-color: #ff8000;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;    
+}
