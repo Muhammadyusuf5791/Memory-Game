@@ -6,9 +6,27 @@
     <title>Memory Game</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img1.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">
+        <div class="sound">
+            <div class="audio">
+                <audio src="Елена MUSICWAY - Body percussion.mp3" controls autoplay loop id="audio"></audio>
+            </div>
+        </div>
+        <div class="menu" id="menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>  
+
+        <div class="resume" id="resume">
+            <i class="fa-solid fa-volume-high" id="loop"></i>
+            <i class="fa-solid fa-volume-xmark" id="muted"></i>
+            <button id="btn-1">Resume</button>
+            <button id="btn-2">Restart</button>
+            
+        </div>
+
         <div class="card">
             <div class="box">
                 <div class="animal">
