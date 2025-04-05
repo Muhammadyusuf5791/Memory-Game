@@ -1,12 +1,14 @@
 const images = document.querySelectorAll('.animal img');
 const cards = document.querySelectorAll('.animal');
-const menu = document.getElementById('menu')
-const resume = document.getElementById('resume')
-const btn_1 = document.getElementById('btn-1')
-const btn_2 = document.getElementById('btn-2')
-const loop = document.getElementById('loop')
-const muted = document.getElementById('muted')
-const audio = document.getElementById('audio')
+const menu = document.getElementById('menu');
+const resume = document.getElementById('resume');
+const btn_1 = document.getElementById('btn-1');
+const btn_2 = document.getElementById('btn-2');
+const loop = document.getElementById('loop');
+const muted = document.getElementById('muted');
+const audio = document.getElementById('audio');
+const winModal = document.getElementById('winModal');  // Win modal element
+const restartButton = document.getElementById('restartButton');  // Restart button inside modal
 
 let selectedImages = [];
 let matchedPairs = new Set();
@@ -17,6 +19,8 @@ let availableImages = ['img2.png', 'img3.png', 'img4.png', 'img5.png', 'img6.png
 function onPageLoad() {
     resume.style.display = 'none'; // Resume menyusini yashirish
     menu.style.display = 'block'; // Menu menyusini ko‘rsatish
+    audio.muted = false; // Audio-ni ovozli qilish
+    audio.play(); // Audio-ni ishga tushirish
 }
 
 // Restart tugmasi bosilganda, bu funksiya menyuni qayta sozlaydi
@@ -43,7 +47,7 @@ function handleClick(event) {
     clickedImg.dataset.image = availableImages[randomIndex];
 
     if (selectedImages.length === 2) {
-        setTimeout(checkMatch, 300);
+        setTimeout(checkMatch, 600);
     }
 }
 
@@ -56,7 +60,7 @@ function checkMatch() {
         selectedImages = [];
 
         if (matchedPairs.size === 10) {
-            setTimeout(showWinModal, 1000);
+            setTimeout(showWinModal, 1000); // Yutganingizda modalni ko'rsatish
         }
     } else {
         setTimeout(resetImages, 600);
@@ -66,7 +70,7 @@ function checkMatch() {
 function resetImages() {
     selectedImages.forEach(item => {
         if (!matchedPairs.has(item.element.dataset.image)) {
-            item.element.setAttribute('src', 'img1.png');
+            item.element.setAttribute('src', 'assets1/img1.png');
             item.element.dataset.image = "";
         }
     });
@@ -74,39 +78,60 @@ function resetImages() {
 }
 
 function showWinModal() {
-    document.getElementById("winModal").style.display = "flex";
+    winModal.style.display = "flex";  // Win modalni ko'rsatish
 }
+
+function hideWinModal() {
+    winModal.style.display = "none";  // Win modalni yashirish
+}
+
+// Menu bosilganda audio-ni ishga tushirish
+menu.addEventListener('click', function () {
+    audio.play(); // Audio-ni faollashtiramiz
+    menu.style.display = 'none';
+    resume.style.display = 'flex';
+});
 
 cards.forEach(card => {
     card.addEventListener('click', handleClick);
 });
 
+// Menu tugmasi ishlashi uchun
 menu.addEventListener('click', function () {
     menu.style.display = 'none';
     resume.style.display = 'flex';
-})
+});
 
+// Restart tugmasi bosilganda o'yinni boshlash
 btn_1.addEventListener('click', function () {
     menu.style.display = 'block';
     resume.style.display = 'none';
-})
+});
 
 // loop tugmasi bosilganda:
 loop.addEventListener('click', function () {
-    loop.style.display = 'none';       // loop tugmasini yashirish
-    muted.style.display = 'block';     // muted tugmasini ko‘rsatish
-    audio.muted = true;                // audio-ni ovozsiz qilish
+    loop.style.display = 'none'; // loop tugmasini yashirish
+    muted.style.display = 'block'; // muted tugmasini ko‘rsatish
+    audio.muted = true; // audio-ni ovozsiz qilish
 });
 
 // muted tugmasi bosilganda:
 muted.addEventListener('click', function () {
-    loop.style.display = 'block';      // loop tugmasini ko‘rsatish
-    muted.style.display = 'none';      // muted tugmasini yashirish
-    audio.muted = false;               // audio-ni ovozli qilish
+    loop.style.display = 'block'; // loop tugmasini ko‘rsatish
+    muted.style.display = 'none'; // muted tugmasini yashirish
+    audio.muted = false; // audio-ni ovozli qilish
 });
 
 // Sahifa yuklanganda yoki qayta yuklanganda, resume menyusini yashirib, menu menyusini ko‘rsatish
-window.onload = onPageLoad;
+window.onload = function () {
+    onPageLoad();
+};
 
 // Restart tugmasi ishlashi uchun
 btn_2.addEventListener('click', restartGame);
+
+// Qayta boshlash tugmasi bosilganda o'yin qaytadan boshlanadi
+restartButton.addEventListener('click', function () {
+    hideWinModal();  // Yutganingizni yashirish
+    restartGame();   // O'yinni qayta boshlash
+});

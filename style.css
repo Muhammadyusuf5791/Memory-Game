@@ -10,6 +10,7 @@
     height: 100vh;
     background-color: #030397;
     position: relative;
+    z-index: 10;
 }
 
 .container, .box, .animal{
@@ -139,6 +140,7 @@
     flex-direction: column;
     background-color: white;
     position: absolute;
+    z-index: 100;
     right: 0;
     top: 0;
     color: blue;
@@ -201,6 +203,6 @@
 
     .container{
         height: auto;
-        padding: 20px;
+        padding: 60px 5px 20px 5px;
     }
 }
