@@ -188,6 +188,7 @@ homeBtn.addEventListener('click', function() {
     falseModal.style.display = 'none';
     home.style.display = 'flex';
     container.style.display = 'none'
+    audio.muted = true;
 });
 
 // O'yinni boshlash
