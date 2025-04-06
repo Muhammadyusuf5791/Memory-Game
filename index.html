@@ -9,20 +9,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="container">
+    <div class="navbar" id="navbar">
+        <div class="banner">
+            <h1>Jos<span>e</span>ph</h1>
+            <h2>S<span>t</span>udio</h2>
+        </div>
+
+        <div class="loading" id="loading">
+                <img src="assets1/img2.png" alt="rasm">
+                <div class="load">
+                    <div class="prosent"></div>
+                </div>
+        </div>
+    </div>
+
+    <div class="home" id="home">
+        <div class="logo">
+            <img src="assets1/img2.png" alt="rasm"><br>
+            <button id="btn-3">Start Game</button>
+        </div>
+    </div>
+
+    
+    <div class="container" id="container">
         <div class="sound">
             <div class="audio">
                 <audio src="assets1/Елена MUSICWAY - Body percussion.mp3" controls autoplay loop id="audio"></audio>
             </div>
         </div>
         <div class="menu" id="menu">
-            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-gear"></i>
         </div>  
 
         <div class="resume" id="resume">
             <i class="fa-solid fa-volume-high" id="loop"></i>
             <i class="fa-solid fa-volume-xmark" id="muted"></i>
             <button id="btn-1">Resume</button>
+            <button id="btn-4">Home</button>
             <button id="btn-2">Restart</button>
             
         </div>
