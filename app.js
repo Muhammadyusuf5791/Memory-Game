@@ -163,7 +163,7 @@ function showFalseModal() {
 // Taymerni yangilash
 function updateTime() {
     let timeElapsed = Date.now() - startTime + elapsedTime; // Taymerni davom ettirish uchun
-    let remainingTime = 50 - Math.floor(timeElapsed / 1000);
+    let remainingTime = 60 - Math.floor(timeElapsed / 1000);
 
     timerDisplay.textContent = remainingTime;
 
@@ -187,6 +187,7 @@ restartBtn.addEventListener('click', function() {
 homeBtn.addEventListener('click', function() {
     falseModal.style.display = 'none';
     home.style.display = 'flex';
+    container.style.display = 'none'
 });
 
 // O'yinni boshlash
@@ -215,6 +216,7 @@ btn_4.addEventListener('click', function () {
     resume.style.display = 'none';
     menu.style.display = 'none';  // Menu yashiriladi
     audio.muted = true;
+    container.style.display = 'none'
 });
 
 // Restart tugmasi
@@ -243,26 +245,15 @@ cards.forEach(card => {
 
 // Menuga bosilganda pauza qilish
 menu.addEventListener('click', function () {
-    if (!isPaused) {
-        // Pauza holatiga o'tish
-        clearInterval(timerInterval); // Taymerni to'xtatish
-        elapsedTime += Date.now() - startTime; // Taymerni to'xtatgan vaqtdan saqlash
-        isPaused = true;  // Pauza holatini yoqish
         menu.style.display = 'none';
         resume.style.display = 'flex';
-    }
+    
 });
 
 // btn_1 tugmasi bosilganda o'yinni davom ettirish
 btn_1.addEventListener('click', function () {
-    if (isPaused) {
-        // Pauzani olib tashlash va taymerni qayta boshlash
-        isPaused = false;
         resume.style.display = 'none';
         menu.style.display = 'block';
-        startTime = Date.now();  // Qayta boshlash uchun startTime ni yangilash
-        timerInterval = setInterval(updateTime, 1000);  // Taymerni qayta ishga tushirish
-    }
 });
 
 // Sahifa yuklanganda

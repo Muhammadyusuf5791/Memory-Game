@@ -257,6 +257,8 @@
     border: 2px dashed #ff8000;
 }
 
+
+
 @keyframes banner {
     0%{
         display: flex;
@@ -331,7 +333,7 @@
 @media (max-width: 500px) {
     .box{
         flex-wrap: wrap;
-        padding: 0 5px;
+        padding: 10px 5px;
     }
 
     .container{
