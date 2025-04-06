@@ -317,4 +317,8 @@
         height: auto;
         padding: 65px 5px 25px 5px;
     }
+
+    .loading, .home img{
+        transform: scale(0.8);
+    }
 }
