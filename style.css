@@ -333,7 +333,7 @@
 @media (max-width: 500px) {
     .box{
         flex-wrap: wrap;
-        padding: 10px 5px;
+        padding: 5px;
     }
 
     .container{
