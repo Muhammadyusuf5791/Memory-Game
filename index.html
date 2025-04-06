@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    
+     
     <div class="container" id="container">
         <div class="sound">
             <div class="audio">
@@ -39,7 +39,7 @@
         </div>
         <div class="menu" id="menu">
             <i class="fa-solid fa-gear"></i>
-        </div>  
+        </div>
 
         <div class="resume" id="resume">
             <i class="fa-solid fa-volume-high" id="loop"></i>
@@ -47,10 +47,32 @@
             <button id="btn-1">Resume</button>
             <button id="btn-4">Home</button>
             <button id="btn-2">Restart</button>
-            
         </div>
 
-        <div class="card">
+        <div class="timer" id="timer">50</div>
+
+
+        <!-- <div class="card" id="card1">
+            <div class="box">
+                <div class="animal">
+                    <img src="assets1/img1.png" alt="rasm">
+                </div>
+                <div class="animal">
+                    <img src="assets1/img1.png" alt="rasm">
+                </div>
+            </div>
+            <div class="box">
+                <div class="animal">
+                    <img src="assets1/img1.png" alt="rasm">
+                </div>
+                <div class="animal">
+                    <img src="assets1/img1.png" alt="rasm">
+                </div>
+            </div>
+        </div> -->
+  
+
+        <div class="card" id="card2">
             <div class="box">
                 <div class="animal">
                     <img src="assets1/img1.png" alt="rasm">
@@ -128,9 +150,18 @@
         <!-- G‘alaba modal oynasi -->
       <div id="winModal" class="modal">
       <div class="modal-content">
-        <h2>🎉 Siz yutdingiz! 🎉</h2>
-        <button onclick="restartGame()">Qayta boshlash</button>
+        <h2>🎉 Siz muvaffaqiyatli tugatdingiz! 🎉</h2>
+        <button id="newPage">Next Page</button>
     </div>
+</div>
+
+   <!-- Mag'lubiyat modal oynasi -->
+   <div id="falseModal" class="modal">
+    <div class="modal-content">
+      <h2>☹️ Siz afsuski yutqazdingiz ☹️</h2>
+      <button id="restartBtn">Restart</button>
+      <button id="homeBtn">Home</button>
+  </div>
 </div>
     
 
