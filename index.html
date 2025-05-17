@@ -1,150 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Game</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets1/img1.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="assets1/img1.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="navbar" id="navbar">
-        <div class="banner">
-            <h1>Jos<span>e</span>ph</h1>
-            <h2>S<span>t</span>udio</h2>
-        </div>
+      <div class="banner">
+        <h1>Jos<span>e</span>ph</h1>
+        <h2>S<span>t</span>udio</h2>
+      </div>
 
-        <div class="loading" id="loading">
-                <img src="assets1/img2.png" alt="rasm">
-                <div class="load">
-                    <div class="prosent"></div>
-                </div>
+      <div class="loading" id="loading">
+        <img src="assets1/img2.png" alt="rasm" />
+        <div class="load">
+          <div class="prosent"></div>
         </div>
+      </div>
     </div>
 
     <div class="home" id="home">
-        <div class="logo">
-            <img src="assets1/img2.png" alt="rasm"><br>
-            <button id="btn-3">Start Game</button>
-        </div>
+      <div class="logo">
+        <img src="assets1/img2.png" alt="rasm" /><br />
+        <button id="btn-3">Start Game</button>
+      </div>
     </div>
 
-     
     <div class="container" id="container">
-        <div class="sound">
-            <div class="audio">
-                <audio src="assets1/Елена MUSICWAY - Body percussion.mp3" controls loop id="audio"></audio>
+                      <div class="sound">
+                  <div class="audio">
+                    <audio
+                      src="assets1/Елена MUSICWAY - Body percussion.mp3"
+                      controls
+                      loop
+                      id="audio"
+                    ></audio>
+                    <audio
+                      src="assets1/TONE noTONE - Echo  A Music Game.mp3"
+                      controls
+                      loop
+                      id="audio1"
+                    ></audio>
+                    <audio
+                      src="assets1/Official Gary Numan - A Game Called Echo.mp3"
+                      controls
+                      loop
+                      id="audio2"
+                    ></audio>
+                  </div>
+                </div>
+      <div class="menu" id="menu">
+        <i class="fa-solid fa-gear"></i>
+      </div>
+
+      <div class="resume" id="resume">
+        <div class="button-box">
+          <h3>Settings</h3>
+          <i class="bx bx-x"></i>
+          <div class="buttons-list">
+            <div class="music-list">
+              <div class="sound-icon">
+                <i class="fa-solid fa-volume-high" id="loop"></i>
+                <i class="fa-solid fa-volume-xmark" id="muted"></i>
+                <p>Sound</p>
+              </div>
+              <div class="music-icon">
+                <div>
+                <i class="bx bx-music"></i>
+                <p>Music</p>
+                </div>
+                <div class="music-name">
+                    <p id="m-name1">1-Music</p>
+                    <p id="m-name2">2-Music</p>
+                    <p id="m-name3">3-Music</p>
+                </div>
+              </div>
             </div>
+            <button id="btn-1"><i class="bx bx-redo"></i>Resume</button>
+            <button id="btn-4"><i class="bx bx-home"></i>Home</button>
+            <button id="btn-2"><i class="bx bx-revision"></i>Restart</button>
+            <button id="btn-5"><i class="bx bx-exit"></i>Exit</button>
+          </div>
         </div>
-        <div class="menu" id="menu">
-            <i class="fa-solid fa-gear"></i>
+      </div>
+
+      <div class="timer" id="timer">60</div>
+
+      <div class="card" id="card2">
+        <div class="box">
+          <div class="animal">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
         </div>
 
-        <div class="resume" id="resume">
-            <i class="fa-solid fa-volume-high" id="loop"></i>
-            <i class="fa-solid fa-volume-xmark" id="muted"></i>
-            <button id="btn-1">Resume</button>
-            <button id="btn-4">Home</button>
-            <button id="btn-2">Restart</button>
+        <div class="box">
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
         </div>
 
-        <div class="timer" id="timer">60</div>
-
-        <div class="card" id="card2">
-            <div class="box">
-                <div class="animal">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-                <div class="animal" id="btn">
-                    <img src="assets1/img1.png" alt="rasm">
-                </div>
-            </div>
+        <div class="box">
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
         </div>
+
+        <div class="box">
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+          <div class="animal" id="btn">
+            <img src="assets1/img1.png" alt="rasm" />
+          </div>
+        </div>
+      </div>
     </div>
 
-        <!-- G‘alaba modal oynasi -->
-      <div id="winModal" class="modal">
+    <!-- G‘alaba modal oynasi -->
+    <div id="winModal" class="modal">
       <div class="modal-content">
-        <h2 style="text-align: center;">🎉 Siz muvaffaqiyatli tugatdingiz! 🎉</h2>
+        <h2 style="text-align: center">
+          🎉 Siz muvaffaqiyatli tugatdingiz! 🎉
+        </h2>
         <button id="newPage">Next Page</button>
+      </div>
     </div>
-</div>
 
-   <!-- Mag'lubiyat modal oynasi -->
-   <div id="falseModal" class="modal">
-    <div class="modal-content">
-      <h2 style="text-align: center;">☹️ Siz afsuski yutqazdingiz ☹️</h2>
-      <button id="restartBtn">Restart</button>
-      <button id="homeBtn">Home</button>
-  </div>
-</div>
-    
-
+    <!-- Mag'lubiyat modal oynasi -->
+    <div id="falseModal" class="modal">
+      <div class="modal-content">
+        <h2 style="text-align: center">☹️ Siz afsuski yutqazdingiz ☹️</h2>
+        <button id="restartBtn">Restart</button>
+        <button id="homeBtn">Home</button>
+      </div>
+    </div>
 
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
