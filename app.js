@@ -111,6 +111,7 @@ close.addEventListener("click", function () {
   resume.style.display = "none";
   menu.style.display = "block";
   resumeTimer(); // ▶️ vaqtni davom ettirish
+  music_name.style.display = 'none'
 });
 
 // Loading
@@ -185,7 +186,30 @@ function restartGame(preserveAudioMuted = true) {
     img.dataset.image = gameImages[index];
   });
 
-  audio.currentTime = 0;
+  // Qaysi audio hozir play holatda ekanligini aniqlaymiz
+  // Agar audio.paused === false bo'lsa, demak u o'ynayapti
+  if (!audio.paused) {
+    audio.currentTime = 0;
+    audio.play();
+  } else {
+    audio.pause();
+  }
+
+  if (!audio1.paused) {
+    audio1.currentTime = 0;
+    audio1.play();
+  } else {
+    audio1.pause();
+  }
+
+  if (!audio2.paused) {
+    audio2.currentTime = 0;
+    audio2.play();
+  } else {
+    audio2.pause();
+  }
+
+  // Mute holati saqlansin
   if (!preserveAudioMuted) {
     audio.muted = false;
     audio1.muted = false;
@@ -314,8 +338,17 @@ btn_3.addEventListener("click", function () {
   menu.style.display = "block";
   resume.style.display = "none";
 
-  audio.play();
+  // Barcha audio fayllarni pauza va reset qilish
+  [audio, audio1, audio2].forEach((aud) => {
+    aud.pause();
+    aud.currentTime = 0;
+  });
+
+  // audio ni o'ynatish (agar bu tanlangan musiqa bo'lsa)
+  audio.play(); // bu yerda siz oxirgi tanlangan musiqani o'ynatmoqchi bo'lsangiz, saqlab olish kerak
+
   resetGameOnly();
+
   audio.muted = false;
   audio1.muted = false;
   audio2.muted = false;
@@ -339,12 +372,14 @@ btn_4.addEventListener("click", function () {
   audio2.muted = true;
   container.style.display = "none";
   pauseTimer(); // vaqtni pauzaga olish
+  music_name.style.display = 'none'
 });
 
 // Menyudan restart
 btn_2.addEventListener("click", function () {
   menu.style.display = "none";
   restartGame(true);
+  music_name.style.display = 'none'
 });
 
 // Audio boshqarish
@@ -381,6 +416,7 @@ btn_1.addEventListener("click", function () {
   resume.style.display = "none";
   menu.style.display = "block";
   resumeTimer(); // ▶️ vaqtni davom ettirish
+  music_name.style.display = 'none'
 });
 
 // Sahifa yuklanganda
