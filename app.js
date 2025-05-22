@@ -166,19 +166,25 @@ function resetGameOnly() {
     gameImages = shuffle([...round1Images, ...round1Images]);
     round1Cards.forEach((card, index) => {
       const img = card.querySelector("img");
-      img.src = "assets1/img1.png";
+      img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
       img.dataset.image = gameImages[index];
+      card.classList.remove('flipped'); // Qo'shimcha: flipped klassini olib tashlaymiz
     });
   } else {
     gameImages = shuffle([...round2Images, ...round2Images]);
     cards.forEach((card, index) => {
       const img = card.querySelector("img");
-      img.src = "assets1/img1.png";
+      img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
       img.dataset.image = gameImages[index];
+      card.classList.remove('flipped'); // Qo'shimcha: flipped klassini olib tashlaymiz
     });
   }
 
-  audio.currentTime = 0;
+  // Barcha audiolarni to'xtatamiz
+  [audio, audio1, audio2].forEach(aud => {
+    aud.pause();
+    aud.currentTime = 0;
+  });
 }
 
 // To'liq qayta boshlash
@@ -407,14 +413,35 @@ btn_3.addEventListener("click", function() {
   menu.style.display = "block";
   resume.style.display = "none";
 
-  // Musiqalarni tozalash
-  [audio, audio1, audio2].forEach((aud) => {
-    aud.pause();
-    aud.currentTime = 0;
+  // O'yinni to'liq qayta boshlash (faqat resetGameOnly emas)
+  currentRound = 1;
+  availableImages = [...round1Images];
+  matchedPairs.clear();
+  selectedImages = [];
+  
+  // Kartalarni to'liq qayta yuklash
+  gameImages = shuffle([...round1Images, ...round1Images]);
+  round1Cards.forEach((card, index) => {
+    const img = card.querySelector("img");
+    img.src = "assets1/img1.png";
+    img.dataset.image = gameImages[index];
+    card.classList.remove('flipped');
   });
 
+  // Musiqalarni tozalash va standart musiqani boshlash
+  [audio, audio1, audio2].forEach(aud => {
+    aud.pause();
+    aud.currentTime = 0;
+    aud.style.display = "none";
+  });
+  
+  audio.style.display = "block";
   audio.play();
-  resetGameOnly();
+  
+  // UI ni yangilash
+  m_name1.style.cssText = 'background-color: white; color: #568e02;';
+  m_name2.style.cssText = 'background-color: #568e02; color: white;';
+  m_name3.style.cssText = 'background-color: #568e02; color: white;';
 
   // Ovozni yoqish
   audio.muted = false;
@@ -436,12 +463,32 @@ btn_4.addEventListener("click", function() {
   home.style.display = "flex";
   resume.style.display = "none";
   menu.style.display = "none";
-  audio.muted = true;
-  audio1.muted = true;
-  audio2.muted = true;
+  
+  // Barcha audiolarni to'xtatamiz va ovozni o'chiramiz
+  [audio, audio1, audio2].forEach(aud => {
+    aud.pause();
+    aud.currentTime = 0;
+    aud.muted = true;
+  });
+  
   container.style.display = "none";
   pauseTimer();
   music_name.style.display = 'none';
+  
+  // Kartalarni yopiq holatga keltiramiz
+  if (currentRound === 1) {
+    round1Cards.forEach(card => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
+      card.classList.remove('flipped');
+    });
+  } else {
+    cards.forEach(card => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
+      card.classList.remove('flipped');
+    });
+  }
 });
 
 // Menyudan qayta boshlash
