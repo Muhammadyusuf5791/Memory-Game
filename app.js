@@ -38,7 +38,7 @@ const m_name3 = document.getElementById("m-name3");
 // O'yin holatlari
 let selectedImages = [];
 let matchedPairs = new Set();
-let round1Images = ["img2.png", "img3.png"]; // 1-bosqich uchun 2 juft
+let round1Images = ["img12.png", "img13.png"]; // 1-bosqich uchun 2 juft
 let round2Images = [
   "img2.png", "img3.png", "img4.png", "img5.png", "img6.png", 
   "img7.png", "img8.png", "img9.png", "img10.png", "img11.png"
