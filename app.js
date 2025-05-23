@@ -1,7 +1,9 @@
-// Elementlar
+// Elements
 const images = document.querySelectorAll(".animal img");
 const cards = document.querySelectorAll(".animal");
 const round1Cards = document.querySelectorAll('.round1-animal');
+const round2Cards = document.querySelectorAll('.round2-animal');
+const round3Cards = document.querySelectorAll('.round3-animal');
 const menu = document.getElementById("menu");
 const resume = document.getElementById("resume");
 const btn_1 = document.getElementById("btn-1");
@@ -11,8 +13,10 @@ const muted = document.getElementById("muted");
 const audio = document.getElementById("audio");
 const audio1 = document.getElementById("audio1");
 const audio2 = document.getElementById("audio2");
-const winModal = document.getElementById("winModal"); // 2-bosqich g'alabasi
-const winModal1 = document.getElementById("winModal1"); // 1-bosqich g'alabasi
+const winModal = document.getElementById("winModal");
+const winModal1 = document.getElementById("winModal1");
+const winModal2 = document.getElementById("winModal2");
+const winModal3 = document.getElementById("winModal3");
 const loading = document.getElementById("loading");
 const container = document.getElementById("container");
 const navbar = document.getElementById("navbar");
@@ -21,12 +25,16 @@ const btn_4 = document.getElementById("btn-4");
 const home = document.getElementById("home");
 const card2 = document.getElementById("card2");
 const round1_card = document.querySelector('.round1-card');
+const round2_card = document.querySelector('.round2-card');
+const round3_card = document.querySelector('.round3-card');
 const timerDisplay = document.getElementById("timer");
 const restartBtn = document.getElementById("restartBtn");
 const falseModal = document.getElementById("falseModal");
 const homeBtn = document.getElementById("homeBtn");
-const newPage = document.getElementById("newPage"); // 2-bosqich next
-const newPage1 = document.getElementById("newPage1"); // 1-bosqich next
+const newPage = document.getElementById("newPage");
+const newPage1 = document.getElementById("newPage1");
+const newPage2 = document.getElementById("newPage2");
+const newPage3 = document.getElementById("newPage3");
 const close = document.querySelector(".bx-x");
 const btn_5 = document.getElementById("btn-5");
 const bx_music = document.querySelector(".bx-music");
@@ -35,31 +43,36 @@ const m_name1 = document.getElementById("m-name1");
 const m_name2 = document.getElementById("m-name2");
 const m_name3 = document.getElementById("m-name3");
 
-// O'yin holatlari
+// Game states
 let selectedImages = [];
 let matchedPairs = new Set();
-let round1Images = ["img12.png", "img13.png"]; // 1-bosqich uchun 2 juft
-let round2Images = [
-  "img2.png", "img3.png", "img4.png", "img5.png", "img6.png", 
-  "img7.png", "img8.png", "img9.png", "img10.png", "img11.png"
-]; // 2-bosqich uchun 10 juft
+let round1Images = ["img12.png", "img13.png"];
+let round2Images = ["img14.png", "img15.png", "img16.png", "img17.png"];
+let round3Images = ["img18.png", "img19.png", "img20.png", "img21.png", "img22.png", 'img23.png'];
+let finalRoundImages = ["img2.png", "img3.png", "img4.png", "img5.png", "img6.png","img7.png", "img8.png", "img9.png", "img10.png", "img11.png"];
 let currentRound = 1;
 let availableImages = [...round1Images];
-let baseImages = [...availableImages];
 let gameImages = [];
 let startTime;
 let elapsedTime = 0;
 let timerInterval;
 let isChecking = false;
 let isPaused = false;
-let roundTimeLimits = {1: 10, 2: 60}; // Bosqichlar uchun vaqt chegaralari
+let roundTimeLimits = {1: 10, 2: 20, 3: 30, 4: 40};
 
-// Kartalarni aralashtirish
+// Initialize modals
+winModal.style.display = "none";
+winModal1.style.display = "none";
+winModal2.style.display = "none";
+winModal3.style.display = "none";
+falseModal.style.display = "none";
+
+// Shuffle function
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Musiqalarni boshqarish
+// Audio control
 function playAudio(audioToPlay) {
   [audio, audio1, audio2].forEach((aud) => {
     if (aud === audioToPlay) {
@@ -73,7 +86,7 @@ function playAudio(audioToPlay) {
   });
 }
 
-// Musiqa tanlash
+// Music selection
 m_name1.addEventListener("click", function() {
   playAudio(audio);
   m_name1.style.cssText = 'background-color: white; color: #568e02;';
@@ -95,23 +108,23 @@ m_name3.addEventListener("click", function() {
   m_name1.style.cssText = 'background-color: #568e02; color: white;';
 });
 
-// Musiqa menyusi
+// Music menu toggle
 bx_music.addEventListener("click", function() {
   music_name.style.display = music_name.style.display === "block" ? "none" : "block";
 });
 
-// O'yindan chiqish
+// Exit game
 btn_5.addEventListener("click", function() {
   window.close();
 });
 
-// Sahifa yuklanganda
+// Page load
 function onPageLoad() {
   resume.style.display = "none";
   menu.style.display = "block";
 }
 
-// Resume sahifasini yopish
+// Close resume
 close.addEventListener("click", function() {
   resume.style.display = "none";
   menu.style.display = "block";
@@ -119,7 +132,7 @@ close.addEventListener("click", function() {
   music_name.style.display = 'none';
 });
 
-// Loading animatsiyasi
+// Loading animation
 function kutish() {
   setTimeout(() => {
     loading.style.display = "flex";
@@ -139,7 +152,7 @@ function xabar1() {
 }
 kutish1(xabar1);
 
-// Vaqtni to'xtatish
+// Timer control
 function pauseTimer() {
   if (!isPaused) {
     elapsedTime += Date.now() - startTime;
@@ -148,7 +161,6 @@ function pauseTimer() {
   }
 }
 
-// Vaqtni davom ettirish
 function resumeTimer() {
   if (isPaused) {
     startTime = Date.now();
@@ -157,7 +169,7 @@ function resumeTimer() {
   }
 }
 
-// O'yinni qayta boshlash (faqat kartalar)
+// Reset game (cards only)
 function resetGameOnly() {
   matchedPairs.clear();
   selectedImages = [];
@@ -166,26 +178,39 @@ function resetGameOnly() {
     gameImages = shuffle([...round1Images, ...round1Images]);
     round1Cards.forEach((card, index) => {
       const img = card.querySelector("img");
-      img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
+      img.src = "assets1/img1.png";
+      img.dataset.image = gameImages[index];
+    });
+  } else if (currentRound === 2) {
+    gameImages = shuffle([...round2Images, ...round2Images]);
+    round2Cards.forEach((card, index) => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
+      img.dataset.image = gameImages[index];
+    });
+  } else if (currentRound === 3) {
+    gameImages = shuffle([...round3Images, ...round3Images]);
+    round3Cards.forEach((card, index) => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
       img.dataset.image = gameImages[index];
     });
   } else {
-    gameImages = shuffle([...round2Images, ...round2Images]);
+    gameImages = shuffle([...finalRoundImages, ...finalRoundImages]);
     cards.forEach((card, index) => {
       const img = card.querySelector("img");
-      img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
+      img.src = "assets1/img1.png";
       img.dataset.image = gameImages[index];
     });
   }
 
-  // Barcha audiolarni to'xtatamiz
   [audio, audio1, audio2].forEach(aud => {
     aud.pause();
     aud.currentTime = 0;
   });
 }
 
-// To'liq qayta boshlash
+// Full restart
 function restartGame(preserveAudioMuted = true) {
   const wasMuted = audio.muted;
 
@@ -195,22 +220,27 @@ function restartGame(preserveAudioMuted = true) {
   availableImages = [...round1Images];
   gameImages = shuffle([...round1Images, ...round1Images]);
 
-  // 1-bosqichni ko'rsatish
+  // Show round 1
   round1_card.style.display = "flex";
+  round2_card.style.display = "none";
+  round3_card.style.display = "none";
   card2.style.display = "none";
   container.style.display = "flex";
   home.style.display = "none";
   menu.style.display = "block";
   resume.style.display = "none";
 
-  // Kartalarni sozlash
+  // Setup cards
   round1Cards.forEach((card, index) => {
     const img = card.querySelector("img");
     img.src = "assets1/img1.png";
     img.dataset.image = gameImages[index];
   });
 
-  // Musiqani sozlash
+  // Initialize timer
+  timerDisplay.textContent = roundTimeLimits[currentRound];
+
+  // Audio control
   if (!audio.paused) {
     audio.currentTime = 0;
     audio.play();
@@ -232,7 +262,7 @@ function restartGame(preserveAudioMuted = true) {
     audio2.pause();
   }
 
-  // Ovozni sozlash
+  // Sound control
   if (!preserveAudioMuted) {
     audio.muted = false;
     audio1.muted = false;
@@ -255,7 +285,7 @@ function restartGame(preserveAudioMuted = true) {
     }
   }
 
-  // Taymerni sozlash
+  // Timer setup
   elapsedTime = 0;
   startTime = Date.now();
   clearInterval(timerInterval);
@@ -263,35 +293,85 @@ function restartGame(preserveAudioMuted = true) {
   isPaused = false;
 }
 
-// Keyingi bosqichga o'tish
-function nextRound() {
+// Round transitions
+function nextRoundTo2() {
   currentRound = 2;
   availableImages = [...round2Images];
   matchedPairs.clear();
   selectedImages = [];
   
-  // 2-bosqich elementlarini ko'rsatish
   round1_card.style.display = "none";
+  round2_card.style.display = "flex";
+  round3_card.style.display = "none";
+  card2.style.display = "none";
+  
+  gameImages = shuffle([...round2Images, ...round2Images]);
+  round2Cards.forEach((card, index) => {
+    const img = card.querySelector("img");
+    img.src = "assets1/img1.png";
+    img.dataset.image = gameImages[index];
+  });
+  
+  elapsedTime = 0;
+  startTime = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTime, 1000);
+  timerDisplay.textContent = roundTimeLimits[currentRound];
+}
+
+function nextRoundTo3() {
+  currentRound = 3;
+  availableImages = [...round3Images];
+  matchedPairs.clear();
+  selectedImages = [];
+  
+  round1_card.style.display = "none";
+  round2_card.style.display = "none";
+  round3_card.style.display = "flex";
+  card2.style.display = "none";
+  
+  gameImages = shuffle([...round3Images, ...round3Images]);
+  round3Cards.forEach((card, index) => {
+    const img = card.querySelector("img");
+    img.src = "assets1/img1.png";
+    img.dataset.image = gameImages[index];
+  });
+  
+  elapsedTime = 0;
+  startTime = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTime, 1000);
+  timerDisplay.textContent = roundTimeLimits[currentRound];
+}
+
+function nextRoundFinal() {
+  currentRound = 4;
+  availableImages = [...finalRoundImages];
+  matchedPairs.clear();
+  selectedImages = [];
+  
+  round1_card.style.display = "none";
+  round2_card.style.display = "none";
+  round3_card.style.display = "none";
   card2.style.display = "flex";
   
-  // Kartalarni sozlash
-  gameImages = shuffle([...round2Images, ...round2Images]);
+  gameImages = shuffle([...finalRoundImages, ...finalRoundImages]);
   cards.forEach((card, index) => {
     const img = card.querySelector("img");
     img.src = "assets1/img1.png";
     img.dataset.image = gameImages[index];
   });
   
-  // Taymerni qayta boshlash
   elapsedTime = 0;
   startTime = Date.now();
   clearInterval(timerInterval);
   timerInterval = setInterval(updateTime, 1000);
+  timerDisplay.textContent = roundTimeLimits[currentRound];
 }
 
-// Karta bosilganda
+// Card click handler
 function handleClick(event) {
-  if (isChecking) return;
+  if (isChecking || isPaused) return;
 
   let clickedImg = event.target.tagName === "IMG" ? event.target : event.target.querySelector("img");
 
@@ -308,130 +388,165 @@ function handleClick(event) {
   }
 }
 
-// Juftlikni tekshirish
+// Check for match
 function checkMatch() {
+  if (selectedImages.length < 2) return;
+  
   const [img1, img2] = selectedImages;
 
-  if (img1.src === img2.src) {
+  if (img1.element.dataset.image === img2.element.dataset.image) {
     matchedPairs.add(img1.element.dataset.image);
     selectedImages = [];
 
-    // G'alaba sharti
-    const neededMatches = currentRound === 1 ? round1Images.length : round2Images.length;
+    const neededMatches = 
+      currentRound === 1 ? round1Images.length : 
+      currentRound === 2 ? round2Images.length : 
+      currentRound === 3 ? round3Images.length :
+      finalRoundImages.length;
+    
     if (matchedPairs.size === neededMatches) {
       clearInterval(timerInterval);
-      if (currentRound === 1) {
-        setTimeout(showWinModal1, 1000); // 1-bosqich g'alabasi
-      } else {
-        setTimeout(showWinModal, 1000); // 2-bosqich g'alabasi
-      }
+      setTimeout(() => {
+        if (currentRound === 1) {
+          showWinModal1();
+        } else if (currentRound === 2) {
+          showWinModal2();
+        } else if (currentRound === 3) {
+          showWinModal3();
+        } else {
+          showWinModal();
+        }
+      }, 500);
     }
-
     isChecking = false;
   } else {
     setTimeout(() => {
-      resetImages();
+      img1.element.src = "assets1/img1.png";
+      img2.element.src = "assets1/img1.png";
+      selectedImages = [];
       isChecking = false;
     }, 600);
   }
 }
 
-// Noto'g'ri juftlikni yopish
-function resetImages() {
-  selectedImages.forEach((item) => {
-    if (!matchedPairs.has(item.element.dataset.image)) {
-      item.element.setAttribute("src", "assets1/img1.png");
-    }
-  });
-  selectedImages = [];
-}
-
-// 1-bosqich g'alaba modali
+// Win modals
 function showWinModal1() {
-  pauseTimer(); // Vaqtni to'xtatish
+  pauseTimer();
   winModal1.style.display = "flex";
+  winModal2.style.display = "none";
+  winModal3.style.display = "none";
+  winModal.style.display = "none";
+  falseModal.style.display = "none";
 }
 
-// 2-bosqich g'alaba modali
+function showWinModal2() {
+  pauseTimer();
+  winModal2.style.display = "flex";
+  winModal1.style.display = "none";
+  winModal3.style.display = "none";
+  winModal.style.display = "none";
+  falseModal.style.display = "none";
+}
+
+function showWinModal3() {
+  pauseTimer();
+  winModal3.style.display = "flex";
+  winModal1.style.display = "none";
+  winModal2.style.display = "none";
+  winModal.style.display = "none";
+  falseModal.style.display = "none";
+}
+
 function showWinModal() {
-  pauseTimer(); // Vaqtni to'xtatish
+  pauseTimer();
   winModal.style.display = "flex";
+  winModal1.style.display = "none";
+  winModal2.style.display = "none";
+  winModal3.style.display = "none";
+  falseModal.style.display = "none";
 }
 
-// Vaqt tugashi modali
+// Time's up modal
 function showFalseModal() {
-  pauseTimer(); // Vaqtni to'xtatish
+  pauseTimer();
   falseModal.style.display = "flex";
+  winModal1.style.display = "none";
+  winModal2.style.display = "none";
+  winModal3.style.display = "none";
+  winModal.style.display = "none";
 }
 
-// Vaqtni yangilash
+// Update timer
 function updateTime() {
+  if (isPaused) return;
+  
   let timeElapsed = Date.now() - startTime + elapsedTime;
   let remainingTime = roundTimeLimits[currentRound] - Math.floor(timeElapsed / 1000);
-
+  
+  remainingTime = Math.max(0, remainingTime);
   timerDisplay.textContent = remainingTime;
 
   if (remainingTime <= 0) {
     clearInterval(timerInterval);
-    showFalseModal();
+    setTimeout(() => {
+      // Flip all cards back before showing modal
+      if (currentRound === 1) {
+        round1Cards.forEach(card => {
+          const img = card.querySelector("img");
+          img.src = "assets1/img1.png";
+        });
+      } else if (currentRound === 2) {
+        round2Cards.forEach(card => {
+          const img = card.querySelector("img");
+          img.src = "assets1/img1.png";
+        });
+      } else if (currentRound === 3) {
+        round3Cards.forEach(card => {
+          const img = card.querySelector("img");
+          img.src = "assets1/img1.png";
+        });
+      } else {
+        cards.forEach(card => {
+          const img = card.querySelector("img");
+          img.src = "assets1/img1.png";
+        });
+      }
+      showFalseModal();
+    }, 500);
   }
 }
 
-// 1-bosqich g'alabasi tugmasi (keyingi bosqichga o'tish)
+// Next buttons
 newPage1.addEventListener("click", function() {
   winModal1.style.display = "none";
-  resumeTimer(); // Vaqtni davom ettirish
-  nextRound();
+  nextRoundTo2();
+  resumeTimer();
 });
 
-// 2-bosqich g'alabasi tugmasi (qayta boshlash)
+newPage2.addEventListener("click", function() {
+  winModal2.style.display = "none";
+  nextRoundTo3();
+  resumeTimer();
+});
+
+newPage3.addEventListener("click", function() {
+  winModal3.style.display = "none";
+  nextRoundFinal();
+  resumeTimer();
+});
+
 newPage.addEventListener("click", function() {
   winModal.style.display = "none";
-  resumeTimer(); // Vaqtni davom ettirish
-  restartGame(true); // 1-bosqichdan qayta boshlash
+  restartGame(true);
 });
 
-// Qayta boshlash tugmasi
+// Restart button
 restartBtn.addEventListener("click", function() {
-  falseModal.style.display = "none"; // Modalni yopish
-  resumeTimer(); // Vaqtni davom ettirish
-  
-  // 1. O'yinni Round1 (1-bosqich) dan qayta boshlash
-  currentRound = 1;
-  
-  // 2. Kartalarni tozalash va yangilash
-  matchedPairs.clear();
-  selectedImages = [];
-  isChecking = false;
-
-  // 3. Round1 kartalarini yangilash (1-bosqich)
-  round1_card.style.display = "flex"; // Round1 ko'rinadi
-  card2.style.display = "none";       // Round2 yopiladi
-  
-  gameImages = shuffle([...round1Images, ...round1Images]);
-  round1Cards.forEach((card, index) => {
-    const img = card.querySelector("img");
-    img.src = "assets1/img1.png"; // Yopiq holatga qaytarish
-    img.dataset.image = gameImages[index];
-  });
-
-  // 4. Round2 kartalarini ham yangilash (agar keyinroq ishlatilsa)
-  gameImages = shuffle([...round2Images, ...round2Images]);
-  cards.forEach((card, index) => {
-    const img = card.querySelector("img");
-    img.src = "assets1/img1.png"; // Yopiq holatga qaytarish
-    img.dataset.image = gameImages[index];
-  });
-
-  // 5. Taymerni qayta boshlash
-  elapsedTime = 0;
-  startTime = Date.now();
-  clearInterval(timerInterval);
-  timerInterval = setInterval(updateTime, 1000);
-  isPaused = false;
+  falseModal.style.display = "none";
+  restartGame(true);
 });
 
-// Bosh menyuga qaytish
+// Home button
 homeBtn.addEventListener("click", function() {
   falseModal.style.display = "none";
   home.style.display = "flex";
@@ -441,22 +556,22 @@ homeBtn.addEventListener("click", function() {
   audio2.muted = true;
 });
 
-// O'yinni boshlash (1-bosqich)
+// Start game (round 1)
 btn_3.addEventListener("click", function() {
   container.style.display = "flex";
   round1_card.style.display = "flex";
+  round2_card.style.display = "none";
+  round3_card.style.display = "none";
   card2.style.display = "none";
   home.style.display = "none";
   menu.style.display = "block";
   resume.style.display = "none";
 
-  // O'yinni to'liq qayta boshlash (faqat resetGameOnly emas)
   currentRound = 1;
   availableImages = [...round1Images];
   matchedPairs.clear();
   selectedImages = [];
   
-  // Kartalarni to'liq qayta yuklash
   gameImages = shuffle([...round1Images, ...round1Images]);
   round1Cards.forEach((card, index) => {
     const img = card.querySelector("img");
@@ -464,7 +579,6 @@ btn_3.addEventListener("click", function() {
     img.dataset.image = gameImages[index];
   });
 
-  // Musiqalarni tozalash va standart musiqani boshlash
   [audio, audio1, audio2].forEach(aud => {
     aud.pause();
     aud.currentTime = 0;
@@ -474,33 +588,30 @@ btn_3.addEventListener("click", function() {
   audio.style.display = "block";
   audio.play();
   
-  // UI ni yangilash
   m_name1.style.cssText = 'background-color: white; color: #568e02;';
   m_name2.style.cssText = 'background-color: #568e02; color: white;';
   m_name3.style.cssText = 'background-color: #568e02; color: white;';
 
-  // Ovozni yoqish
   audio.muted = false;
   audio1.muted = false;
   audio2.muted = false;
   loop.style.display = "block";
   muted.style.display = "none";
 
-  // Taymerni boshlash
   elapsedTime = 0;
   startTime = Date.now();
   clearInterval(timerInterval);
   timerInterval = setInterval(updateTime, 1000);
   isPaused = false;
+  timerDisplay.textContent = roundTimeLimits[currentRound];
 });
 
-// O'yindan chiqish
+// Exit to menu
 btn_4.addEventListener("click", function() {
   home.style.display = "flex";
   resume.style.display = "none";
   menu.style.display = "none";
   
-  // Barcha audiolarni to'xtatamiz va ovozni o'chiramiz
   [audio, audio1, audio2].forEach(aud => {
     aud.pause();
     aud.currentTime = 0;
@@ -511,9 +622,18 @@ btn_4.addEventListener("click", function() {
   pauseTimer();
   music_name.style.display = 'none';
   
-  // Kartalarni yopiq holatga keltiramiz
   if (currentRound === 1) {
     round1Cards.forEach(card => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
+    });
+  } else if (currentRound === 2) {
+    round2Cards.forEach(card => {
+      const img = card.querySelector("img");
+      img.src = "assets1/img1.png";
+    });
+  } else if (currentRound === 3) {
+    round3Cards.forEach(card => {
       const img = card.querySelector("img");
       img.src = "assets1/img1.png";
     });
@@ -525,14 +645,14 @@ btn_4.addEventListener("click", function() {
   }
 });
 
-// Menyudan qayta boshlash
+// Restart from menu
 btn_2.addEventListener("click", function() {
   menu.style.display = "none";
   restartGame(true);
   music_name.style.display = 'none';
 });
 
-// Ovozni o'chirish/yoqish
+// Sound toggle
 loop.addEventListener("click", function() {
   loop.style.display = "none";
   muted.style.display = "block";
@@ -549,8 +669,16 @@ muted.addEventListener("click", function() {
   audio2.muted = false;
 });
 
-// Kartalarga hodisalar qo'shish
+// Event listeners for cards
 round1Cards.forEach((card) => {
+  card.addEventListener("click", handleClick);
+});
+
+round2Cards.forEach((card) => {
+  card.addEventListener("click", handleClick);
+});
+
+round3Cards.forEach((card) => {
   card.addEventListener("click", handleClick);
 });
 
@@ -558,14 +686,14 @@ cards.forEach((card) => {
   card.addEventListener("click", handleClick);
 });
 
-// Menyuni ko'rsatish
+// Show menu
 menu.addEventListener("click", function() {
   menu.style.display = "none";
   resume.style.display = "flex";
   pauseTimer();
 });
 
-// Davom ettirish
+// Resume game
 btn_1.addEventListener("click", function() {
   resume.style.display = "none";
   menu.style.display = "block";
@@ -573,7 +701,7 @@ btn_1.addEventListener("click", function() {
   music_name.style.display = 'none';
 });
 
-// Sahifa yuklanganda
+// Page load
 window.onload = function() {
   onPageLoad();
 };

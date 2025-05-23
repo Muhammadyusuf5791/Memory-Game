@@ -13,27 +13,40 @@
     z-index: 10;
 }
 
-.container, .box, .animal, .navbar, .loading, .home, .round1-animal{
+.container, .box, .animal, .navbar, .loading, .home, .round1-animal, .round2-animal, .round3-animal{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.round1-box {
-    display: grid;
-    grid-template-columns: 2fr 2fr;
-    justify-content: center; /* Gorizontal markazga */
-    align-items: center;     /* Vertikal markazga */
-    /* height: 100vh;           Butun ekranni egallashi uchun */
-}
-
-.round1-card{
+.round1-card, .round2-card, .round3-card{
     width: 100%;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #030397;
+}
+
+.round1-box {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    justify-content: center; 
+    align-items: center;
+}
+
+.round2-box {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+    justify-content: center; /* Gorizontal markazga */
+    align-items: center;     /* Vertikal markazga */
+}
+
+.round3-box {
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    justify-content: center; /* Gorizontal markazga */
+    align-items: center;     /* Vertikal markazga */
 }
 
 #timer {
@@ -65,7 +78,17 @@
     height: 80px;
 }
 
-.animal, .round1-animal{
+.round2-animal img{
+    width: 70px;
+    height: 65px;
+}
+
+.round3-animal img{
+    width: 60px;
+    height: 55px;
+}
+
+.animal, .round1-animal, .round2-animal, .round3-animal{
     width: 80px;
     height: 55px;
     background-color: #ff8000;
@@ -77,6 +100,16 @@
 .round1-animal{
     width: 150px;
     height: 120px;
+}
+
+.round2-animal{
+    width: 120px;
+    height: 100px;
+}
+
+.round3-animal{
+    width: 95px;
+    height: 80px;
 }
 
 .modal {
@@ -154,7 +187,7 @@
     background: #cc6600;
 }
 
-#muted, .sound, .resume, .card, .container, .home{
+#muted, .sound, .resume, .card, .container, .home, .round2-card, .round3-card{
     display: none;
 }
 
