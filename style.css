@@ -467,15 +467,15 @@
     to { opacity: 1; transform: scale(1); }
 }
 
-/* @media (max-width: 1000px) {
-    .container{
-        padding: 10px;
+@media (max-width: 600px) {
+    .round2-box, .round3-box{
+        display: flex;
         flex-wrap: wrap;
     }
-} */
+}
 
 @media (max-width: 500px) {
-    .box{
+    .box, .round2-box, .round3-box{
         flex-wrap: wrap;
     }
 
@@ -487,7 +487,7 @@
         width: 350px;
     }
     
-    .card{
+    .card, .round2-card, .round3-card{
         padding-top: 60px;
     }
 }
