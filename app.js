@@ -168,7 +168,6 @@ function resetGameOnly() {
       const img = card.querySelector("img");
       img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
       img.dataset.image = gameImages[index];
-      card.classList.remove('flipped'); // Qo'shimcha: flipped klassini olib tashlaymiz
     });
   } else {
     gameImages = shuffle([...round2Images, ...round2Images]);
@@ -176,7 +175,6 @@ function resetGameOnly() {
       const img = card.querySelector("img");
       img.src = "assets1/img1.png"; // Barcha kartalarni yopiq holatga keltiramiz
       img.dataset.image = gameImages[index];
-      card.classList.remove('flipped'); // Qo'shimcha: flipped klassini olib tashlaymiz
     });
   }
 
@@ -350,16 +348,19 @@ function resetImages() {
 
 // 1-bosqich g'alaba modali
 function showWinModal1() {
+  pauseTimer(); // Vaqtni to'xtatish
   winModal1.style.display = "flex";
 }
 
 // 2-bosqich g'alaba modali
 function showWinModal() {
+  pauseTimer(); // Vaqtni to'xtatish
   winModal.style.display = "flex";
 }
 
 // Vaqt tugashi modali
 function showFalseModal() {
+  pauseTimer(); // Vaqtni to'xtatish
   falseModal.style.display = "flex";
 }
 
@@ -379,19 +380,55 @@ function updateTime() {
 // 1-bosqich g'alabasi tugmasi (keyingi bosqichga o'tish)
 newPage1.addEventListener("click", function() {
   winModal1.style.display = "none";
+  resumeTimer(); // Vaqtni davom ettirish
   nextRound();
 });
 
 // 2-bosqich g'alabasi tugmasi (qayta boshlash)
 newPage.addEventListener("click", function() {
   winModal.style.display = "none";
+  resumeTimer(); // Vaqtni davom ettirish
   restartGame(true); // 1-bosqichdan qayta boshlash
 });
 
 // Qayta boshlash tugmasi
 restartBtn.addEventListener("click", function() {
-  falseModal.style.display = "none";
-  restartGame(true);
+  falseModal.style.display = "none"; // Modalni yopish
+  resumeTimer(); // Vaqtni davom ettirish
+  
+  // 1. O'yinni Round1 (1-bosqich) dan qayta boshlash
+  currentRound = 1;
+  
+  // 2. Kartalarni tozalash va yangilash
+  matchedPairs.clear();
+  selectedImages = [];
+  isChecking = false;
+
+  // 3. Round1 kartalarini yangilash (1-bosqich)
+  round1_card.style.display = "flex"; // Round1 ko'rinadi
+  card2.style.display = "none";       // Round2 yopiladi
+  
+  gameImages = shuffle([...round1Images, ...round1Images]);
+  round1Cards.forEach((card, index) => {
+    const img = card.querySelector("img");
+    img.src = "assets1/img1.png"; // Yopiq holatga qaytarish
+    img.dataset.image = gameImages[index];
+  });
+
+  // 4. Round2 kartalarini ham yangilash (agar keyinroq ishlatilsa)
+  gameImages = shuffle([...round2Images, ...round2Images]);
+  cards.forEach((card, index) => {
+    const img = card.querySelector("img");
+    img.src = "assets1/img1.png"; // Yopiq holatga qaytarish
+    img.dataset.image = gameImages[index];
+  });
+
+  // 5. Taymerni qayta boshlash
+  elapsedTime = 0;
+  startTime = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTime, 1000);
+  isPaused = false;
 });
 
 // Bosh menyuga qaytish
@@ -425,7 +462,6 @@ btn_3.addEventListener("click", function() {
     const img = card.querySelector("img");
     img.src = "assets1/img1.png";
     img.dataset.image = gameImages[index];
-    card.classList.remove('flipped');
   });
 
   // Musiqalarni tozalash va standart musiqani boshlash
@@ -480,13 +516,11 @@ btn_4.addEventListener("click", function() {
     round1Cards.forEach(card => {
       const img = card.querySelector("img");
       img.src = "assets1/img1.png";
-      card.classList.remove('flipped');
     });
   } else {
     cards.forEach(card => {
       const img = card.querySelector("img");
       img.src = "assets1/img1.png";
-      card.classList.remove('flipped');
     });
   }
 });
