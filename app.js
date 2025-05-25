@@ -43,6 +43,14 @@ const m_name1 = document.getElementById("m-name1");
 const m_name2 = document.getElementById("m-name2");
 const m_name3 = document.getElementById("m-name3");
 
+// Initialize localStorage values
+if (!localStorage.getItem('selectedAudio')) {
+  localStorage.setItem('selectedAudio', 'audio'); // Default to audio
+}
+if (!localStorage.getItem('isMuted')) {
+  localStorage.setItem('isMuted', 'false'); // Default to not muted
+}
+
 // Game states
 let selectedImages = [];
 let matchedPairs = new Set();
@@ -58,7 +66,7 @@ let elapsedTime = 0;
 let timerInterval;
 let isChecking = false;
 let isPaused = false;
-let roundTimeLimits = {1: 10, 2: 20, 3: 30, 4: 40};
+let roundTimeLimits = {1: 10, 2: 15, 3: 25, 4: 40};
 
 // Initialize modals
 winModal.style.display = "none";
@@ -72,12 +80,14 @@ function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Audio control
-function playAudio(audioToPlay) {
+// Audio control with forcePlay parameter
+function playAudio(audioToPlay, forcePlay = false) {
   [audio, audio1, audio2].forEach((aud) => {
     if (aud === audioToPlay) {
       aud.style.display = "block";
-      aud.play();
+      if (forcePlay || !aud.paused) {
+        aud.play();
+      }
     } else {
       aud.pause();
       aud.currentTime = 0;
@@ -86,8 +96,48 @@ function playAudio(audioToPlay) {
   });
 }
 
+// Restore audio settings with forcePlay parameter
+function restoreAudioSettings(forcePlay = false) {
+  const selectedAudio = localStorage.getItem('selectedAudio');
+  const isMuted = localStorage.getItem('isMuted') === 'true';
+  
+  // Audio selection
+  if (selectedAudio === 'audio1') {
+    playAudio(audio1, forcePlay);
+    m_name2.style.cssText = 'background-color: white; color: #568e02;';
+    m_name1.style.cssText = 'background-color: #568e02; color: white;';
+    m_name3.style.cssText = 'background-color: #568e02; color: white;';
+  } else if (selectedAudio === 'audio2') {
+    playAudio(audio2, forcePlay);
+    m_name3.style.cssText = 'background-color: white; color: #568e02;';
+    m_name2.style.cssText = 'background-color: #568e02; color: white;';
+    m_name1.style.cssText = 'background-color: #568e02; color: white;';
+  } else {
+    playAudio(audio, forcePlay);
+    m_name1.style.cssText = 'background-color: white; color: #568e02;';
+    m_name2.style.cssText = 'background-color: #568e02; color: white;';
+    m_name3.style.cssText = 'background-color: #568e02; color: white;';
+  }
+
+  // Mute state
+  if (isMuted) {
+    loop.style.display = "none";
+    muted.style.display = "block";
+    audio.muted = true;
+    audio1.muted = true;
+    audio2.muted = true;
+  } else {
+    loop.style.display = "block";
+    muted.style.display = "none";
+    audio.muted = false;
+    audio1.muted = false;
+    audio2.muted = false;
+  }
+}
+
 // Music selection
 m_name1.addEventListener("click", function() {
+  localStorage.setItem('selectedAudio', 'audio');
   playAudio(audio);
   m_name1.style.cssText = 'background-color: white; color: #568e02;';
   m_name2.style.cssText = 'background-color: #568e02; color: white;';
@@ -95,6 +145,7 @@ m_name1.addEventListener("click", function() {
 });
 
 m_name2.addEventListener("click", function() {
+  localStorage.setItem('selectedAudio', 'audio1');
   playAudio(audio1);
   m_name2.style.cssText = 'background-color: white; color: #568e02;';
   m_name1.style.cssText = 'background-color: #568e02; color: white;';
@@ -102,6 +153,7 @@ m_name2.addEventListener("click", function() {
 });
 
 m_name3.addEventListener("click", function() {
+  localStorage.setItem('selectedAudio', 'audio2');
   playAudio(audio2);
   m_name3.style.cssText = 'background-color: white; color: #568e02;';
   m_name2.style.cssText = 'background-color: #568e02; color: white;';
@@ -130,6 +182,7 @@ close.addEventListener("click", function() {
   menu.style.display = "block";
   resumeTimer();
   music_name.style.display = 'none';
+  restoreAudioSettings(true); // Resume selected audio
 });
 
 // Loading animation
@@ -212,8 +265,6 @@ function resetGameOnly() {
 
 // Full restart
 function restartGame(preserveAudioMuted = true) {
-  const wasMuted = audio.muted;
-
   matchedPairs.clear();
   selectedImages = [];
   currentRound = 1;
@@ -240,50 +291,8 @@ function restartGame(preserveAudioMuted = true) {
   // Initialize timer
   timerDisplay.textContent = roundTimeLimits[currentRound];
 
-  // Audio control
-  if (!audio.paused) {
-    audio.currentTime = 0;
-    audio.play();
-  } else {
-    audio.pause();
-  }
-
-  if (!audio1.paused) {
-    audio1.currentTime = 0;
-    audio1.play();
-  } else {
-    audio1.pause();
-  }
-
-  if (!audio2.paused) {
-    audio2.currentTime = 0;
-    audio2.play();
-  } else {
-    audio2.pause();
-  }
-
-  // Sound control
-  if (!preserveAudioMuted) {
-    audio.muted = false;
-    audio1.muted = false;
-    audio2.muted = false;
-    loop.style.display = "block";
-    muted.style.display = "none";
-  } else {
-    if (wasMuted) {
-      audio.muted = true;
-      audio1.muted = true;
-      audio2.muted = true;
-      loop.style.display = "none";
-      muted.style.display = "block";
-    } else {
-      audio.muted = false;
-      audio1.muted = false;
-      audio2.muted = false;
-      loop.style.display = "block";
-      muted.style.display = "none";
-    }
-  }
+  // Restore audio settings
+  restoreAudioSettings(true);
 
   // Timer setup
   elapsedTime = 0;
@@ -579,25 +588,9 @@ btn_3.addEventListener("click", function() {
     img.dataset.image = gameImages[index];
   });
 
-  [audio, audio1, audio2].forEach(aud => {
-    aud.pause();
-    aud.currentTime = 0;
-    aud.style.display = "none";
-  });
+  // Restore audio settings with force play
+  restoreAudioSettings(true);
   
-  audio.style.display = "block";
-  audio.play();
-  
-  m_name1.style.cssText = 'background-color: white; color: #568e02;';
-  m_name2.style.cssText = 'background-color: #568e02; color: white;';
-  m_name3.style.cssText = 'background-color: #568e02; color: white;';
-
-  audio.muted = false;
-  audio1.muted = false;
-  audio2.muted = false;
-  loop.style.display = "block";
-  muted.style.display = "none";
-
   elapsedTime = 0;
   startTime = Date.now();
   clearInterval(timerInterval);
@@ -615,7 +608,6 @@ btn_4.addEventListener("click", function() {
   [audio, audio1, audio2].forEach(aud => {
     aud.pause();
     aud.currentTime = 0;
-    aud.muted = true;
   });
   
   container.style.display = "none";
@@ -659,6 +651,7 @@ loop.addEventListener("click", function() {
   audio.muted = true;
   audio1.muted = true;
   audio2.muted = true;
+  localStorage.setItem('isMuted', 'true');
 });
 
 muted.addEventListener("click", function() {
@@ -667,6 +660,7 @@ muted.addEventListener("click", function() {
   audio.muted = false;
   audio1.muted = false;
   audio2.muted = false;
+  localStorage.setItem('isMuted', 'false');
 });
 
 // Event listeners for cards
@@ -691,6 +685,8 @@ menu.addEventListener("click", function() {
   menu.style.display = "none";
   resume.style.display = "flex";
   pauseTimer();
+  // Pause all audio without stopping
+  [audio, audio1, audio2].forEach(aud => aud.pause());
 });
 
 // Resume game
@@ -699,6 +695,8 @@ btn_1.addEventListener("click", function() {
   menu.style.display = "block";
   resumeTimer();
   music_name.style.display = 'none';
+  // Resume selected audio
+  restoreAudioSettings(true);
 });
 
 // Page load
