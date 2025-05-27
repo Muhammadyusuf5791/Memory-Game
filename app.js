@@ -727,18 +727,23 @@ newPage.addEventListener("click", function () {
 // Restart button
 restartBtn.addEventListener("click", function () {
   falseModal.style.display = "none";
-  false_audio.pause();
   restartGame(true);
 });
 
 // Home button
-homeBtn.addEventListener("click", function () {
+homeBtn.addEventListener("click", function() {
   falseModal.style.display = "none";
-  false_audio.pause();
   home.style.display = "flex";
   container.style.display = "none";
+  
+  // Barcha audio elementlarini to'xtatish va menu audio'ni ishga tushirish
+  [audio, audio1, audio2, audio3, win_audio, false_audio].forEach((aud) => {
+    aud.pause();
+    aud.currentTime = 0;
+  });
   menu_audio.play();
 });
+
 
 // Start game (round 1)
 btn_3.addEventListener("click", function () {
